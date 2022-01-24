@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Model\Product;
+use App\Http\Resources\Product\ProductCollection;
+use App\Http\Resources\Product\ProductResource;
+use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 
 class ProductController extends Controller
@@ -12,11 +16,15 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return void
+     * @return AnonymousResourceCollection
      */
     public function index()
     {
-        //
+        //To show as single product
+        //return ProductResource::collection(Product::all());
+
+        //To show customized
+        return ProductCollection::collection(Product::all());
     }
 
     /**
@@ -44,11 +52,11 @@ class ProductController extends Controller
      * Display the specified resource.
      *
      * @param Product $product
-     * @return void
+     * @return ProductResource
      */
     public function show(Product $product)
     {
-        //
+        return new ProductResource($product);
     }
 
     /**
